@@ -7,7 +7,7 @@ public class InMemoryStudentRepository : IStudentRepository
 {
     private readonly List<Student> _students = new();
 
-    // Helper method to add test data
+
     public void Seed(Student student) => _students.Add(student);
 
     public Task<Student?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
@@ -20,7 +20,7 @@ public class InMemoryEquipmentRepository : IEquipmentRepository
 {
     private readonly List<Equipment> _equipment = new();
 
-    // Helper method to add test data
+
     public void Seed(Equipment equipment) => _equipment.Add(equipment);
 
     public Task<Equipment?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
@@ -30,7 +30,7 @@ public class InMemoryEquipmentRepository : IEquipmentRepository
 
     public Task UpdateAsync(Equipment equipment, CancellationToken cancellationToken = default)
     {
-        // In-memory lists update automatically via reference, but we must satisfy the interface
+        
         return Task.CompletedTask;
     }
 }
