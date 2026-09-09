@@ -4,6 +4,12 @@ namespace EquipmentBorrowing.Desktop.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    [ObservableProperty]
-    public partial string Greeting { get; set; } = "Welcome to Avalonia!";
+    public EquipmentViewModel EquipmentViewModel { get; }
+    public BorrowingsViewModel BorrowingsViewModel { get; }
+
+    public MainViewModel(EquipmentViewModel equipmentViewModel, BorrowingsViewModel borrowingsViewModel)
+    {
+        EquipmentViewModel = equipmentViewModel;
+        BorrowingsViewModel = borrowingsViewModel;
+    }
 }
