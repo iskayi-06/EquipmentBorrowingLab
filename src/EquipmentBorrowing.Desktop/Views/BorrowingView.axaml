@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EquipmentBorrowing.Desktop.ViewModels"
+             x:Class="EquipmentBorrowing.Desktop.Views.BorrowingsView"
+             x:DataType="vm:BorrowingsViewModel">
+
+    <Grid ColumnDefinitions="2*, 1*" Margin="20">
+        
+        <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="15" Margin="0,0,10,0">
+            <DockPanel>
+                <TextBlock Text="Active Borrowings" FontSize="20" FontWeight="Bold" Margin="0,0,0,15" DockPanel.Dock="Top"/>
+                
+                <ListBox ItemsSource="{Binding BorrowingsList}" 
+                         SelectedItem="{Binding SelectedBorrowing}"
+                         Background="Transparent">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="5">
+                                <TextBlock Text="{Binding}" FontWeight="Bold" FontSize="16"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+        <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="15" Margin="10,0,0,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="15">
+                    <TextBlock Text="Return Equipment" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+                    
+                    <TextBlock Text="Selected Record:" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding SelectedBorrowing, TargetNullValue='None selected'}" 
+                               Foreground="Blue" Margin="0,0,0,10"/>
+
+                    <Button Content="Return Equipment" 
+                            Command="{Binding ReturnCommand}"
+                            Background="#28A745" Foreground="White" 
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                            Margin="0,20,0,0"/>
+
+                    <TextBlock Text="{Binding StatusMessage}" 
+                               Foreground="Red" TextWrapping="Wrap" 
+                               Margin="0,10,0,0" FontWeight="SemiBold"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>

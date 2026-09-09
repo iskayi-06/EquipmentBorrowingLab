@@ -11,6 +11,8 @@ public interface IEquipmentRepository
 {
     Task<Equipment?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
     Task UpdateAsync(Equipment equipment, CancellationToken cancellationToken = default);
+    
+    IEnumerable<Equipment> GetAll(); 
 }
 
 public interface IBorrowingRepository

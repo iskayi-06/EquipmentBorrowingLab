@@ -4,11 +4,12 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
+using EquipmentBorrowing.Application.Interfaces;
+using EquipmentBorrowing.Infrastructure.Repositories;
 
 using EquipmentBorrowing.Desktop.ViewModels;
 using EquipmentBorrowing.Desktop.Views;
 using EquipmentBorrowing.Application.Services;
-
 
 using EquipmentBorrowing.Infrastructure;
 using EquipmentBorrowing.Infrastructure.Repositories;
@@ -30,7 +31,11 @@ public partial class App : Avalonia.Application
 
         services.AddSingleton<IEquipmentRepository, InMemoryEquipmentRepository>();
         services.AddSingleton<IBorrowingRepository, InMemoryBorrowingRepository>();
+        services.AddSingleton<IStudentRepository, InMemoryStudentRepository>();
+        services.AddSingleton<IEquipmentRepository, InMemoryEquipmentRepository>();
+        services.AddSingleton<IBorrowingRepository, InMemoryBorrowingRepository>();
 
+        services.AddTransient<BorrowEquipmentService>();
         services.AddTransient<BorrowEquipmentService>();
         services.AddTransient<ReturnEquipmentService>();
 

@@ -9,23 +9,19 @@
         x:DataType="vm:MainViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Equipment Borrowing System"
-        Width="800" Height="500"
+        Width="1100" Height="700"
         WindowStartupLocation="CenterScreen">
 
     <Grid Background="#F3F4F6">
         
         <TabControl Margin="10">
-            <TabItem Header="Available Equipment" FontSize="16">
-                <views:EquipmentView DataContext="{Binding EquipmentViewModel}" />
-            </TabItem>
-
-            <TabItem Header="Active Borrowings" FontSize="16">
-                <TextBlock Text="Borrowings List will go here..." 
-                           HorizontalAlignment="Center" 
-                           VerticalAlignment="Center" 
-                           FontSize="20" Foreground="Gray"/>
-            </TabItem>
-        </TabControl>
+        <TabItem Header="Available Equipment" FontSize="16">
+            <views:EquipmentView DataContext="{Binding EquipmentViewModel}"/>
+        </TabItem>
+        <TabItem Header="Active Borrowings" FontSize="16">
+            <views:BorrowingsView DataContext="{Binding BorrowingsViewModel}"/>
+        </TabItem>
+    </TabControl>
         
     </Grid>
 </Window>

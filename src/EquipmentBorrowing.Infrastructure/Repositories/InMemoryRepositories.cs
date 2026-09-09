@@ -20,6 +20,13 @@ public class InMemoryEquipmentRepository : IEquipmentRepository
 {
     private readonly List<Equipment> _equipment = new();
 
+public InMemoryEquipmentRepository()
+{
+    // Add some dummy data so the UI isn't empty
+    _equipment.Add(new Equipment { Id = 1, Name = "Oscilloscope", IsAvailable = true });
+    _equipment.Add(new Equipment { Id = 2, Name = "Digital Multimeter", IsAvailable = true });
+    _equipment.Add(new Equipment { Id = 3, Name = "Soldering Station", IsAvailable = true });
+}
 
     public void Seed(Equipment equipment) => _equipment.Add(equipment);
 
@@ -33,6 +40,10 @@ public class InMemoryEquipmentRepository : IEquipmentRepository
         
         return Task.CompletedTask;
     }
+    public IEnumerable<Equipment> GetAll()
+{
+    return _equipment;
+}
 }
 
 public class InMemoryBorrowingRepository : IBorrowingRepository
