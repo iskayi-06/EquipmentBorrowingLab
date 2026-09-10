@@ -1,28 +1,54 @@
-using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using EquipmentBorrowing.Application.Services; 
-
+using EquipmentBorrowing.Application.Interfaces;
+using EquipmentBorrowing.Application.Services;
+using EquipmentBorrowing.Domain;
+using System;
+using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using EquipmentBorrowing.Domain;
+using EquipmentBorrowing.Application.Interfaces;
+using EquipmentBorrowing.Application.Services;
 namespace EquipmentBorrowing.Desktop.ViewModels;
 
 public partial class BorrowingsViewModel : ViewModelBase
 {
     private readonly ReturnEquipmentService _returnService;
-    [ObservableProperty]
-    private object? _selectedBorrowing;
+    private readonly IBorrowingRepository _borrowingRepo; // Added repo
 
     [ObservableProperty]
-private string _statusMessage = string.Empty;
+    private Borrowing? _selectedBorrowing;
 
-    public ObservableCollection<object> BorrowingsList {get; set; } = new ObservableCollection<object>();
+    [ObservableProperty]
+    private string _statusMessage = string.Empty;
 
+    public ObservableCollection<Borrowing> BorrowingsList { get; set; } = new();
 
-    public BorrowingsViewModel(ReturnEquipmentService returnService)
+    public BorrowingsViewModel(ReturnEquipmentService returnService, IBorrowingRepository borrowingRepo)
     {
         _returnService = returnService;
+        _borrowingRepo = borrowingRepo;
+        
+        Refresh();
     }
+
+    [RelayCommand]
+    private void Refresh()
+    {
+        BorrowingsList.Clear();
+        var items = _borrowingRepo.GetAll();
+        
+        foreach (var item in items)
+        {
+            // ONLY add it to the UI if it is still Active!
+            if (item.Status == BorrowingStatus.Active)
+            {
+                BorrowingsList.Add(item);
+            }
+        }
+}
+
     [RelayCommand]
     private async Task ReturnAsync()
     {
@@ -31,11 +57,13 @@ private string _statusMessage = string.Empty;
             StatusMessage = "Error: Please select a record to return.";
             return;
         }
-        StatusMessage = "Processing return...";
-        
+
         try
         {
+            await _returnService.ReturnAsync(SelectedBorrowing);
             StatusMessage = "Successfully returned equipment!";
+            BorrowingsList.Remove(SelectedBorrowing);
+            SelectedBorrowing = null;
         }
         catch (Exception ex)
         {

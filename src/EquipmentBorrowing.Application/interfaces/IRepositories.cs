@@ -18,4 +18,6 @@ public interface IEquipmentRepository
 public interface IBorrowingRepository
 {
     Task AddAsync(Borrowing borrowing, CancellationToken cancellationToken = default);
+
+    IEnumerable<Borrowing> GetAll();
 }

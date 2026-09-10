@@ -68,14 +68,44 @@ public ObservableCollection<Equipment> EquipmentList { get; set; } = new Observa
 
         StatusMessage = "Processing...";
 
-        try
+       try
         {
+            if (!int.TryParse(StudentId, out int parsedStudentId))
+            {
+                StatusMessage = "Error: Student ID must be a valid number.";
+                return;
+            }
+
+            int daysToBorrow = (ReturnDate.Value.DateTime.Date - DateTime.Now.Date).Days;
             
+            if (daysToBorrow <= 0)
+            {
+                StatusMessage = "Error: Return date must be in the future.";
+                return;
+            }
+
+            var result = await _borrowService.BorrowAsync(
+                parsedStudentId,      
+                SelectedEquipment.Id,  
+                daysToBorrow);         
+
+            if (result == null)
+            {
+                 StatusMessage = "Failed: Student invalid or Equipment unavailable.";
+                 return;
+            }
+
             StatusMessage = "Successfully borrowed equipment!";
+
+            StudentId = string.Empty;
+            ReturnDate = null;
+            SelectedEquipment = null;
+
+            LoadEquipment();
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Failed: {ex.Message}";
+            StatusMessage = $"Failed: {ex. Message}";
         }
     }
 }

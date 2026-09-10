@@ -7,6 +7,16 @@ public class InMemoryStudentRepository : IStudentRepository
 {
     private readonly List<Student> _students = new();
 
+    public InMemoryStudentRepository()
+    {
+        _students.Add(new Student
+        {
+            Id = 1,
+            Name = "Elisha",
+            IsAllowedToBorrow = true
+        });
+    }
+
 
     public void Seed(Student student) => _students.Add(student);
 
@@ -54,5 +64,10 @@ public class InMemoryBorrowingRepository : IBorrowingRepository
     {
         _borrowings.Add(borrowing);
         return Task.CompletedTask;
+    }
+
+    public IEnumerable<Borrowing> GetAll()
+    {
+        return _borrowings;
     }
 }
